@@ -83,3 +83,74 @@ public class Main {
 
 ```
 
+## Fetch data 
+```session.find(Student.class, 0:34)// o:34 is object with value 34 i.e. rollNo=34```
+## update and insert
+``` 
+ session.merge();
+    tansaction.commit();
+```
+## delete
+```
+session.remove(object);
+```
+
+
+
+ ## Custom table name and column name 
+- in your getter and setters 
+- use @Table(name"String") to set table name above the class after @Entity
+- use @Column(name="String") to set column name 
+
+# complex data type using @Embeddable 
+
+# example
+
+Address Class (Embeddable)
+```
+import jakarta.persistence.Embeddable;
+
+@Embeddable
+public class Address {
+
+    private String city;
+    private String state;
+    private String pincode;
+
+    // Getters and Setters
+}
+```
+Student Entity
+```
+import jakarta.persistence.*;
+
+@Entity
+public class Student {
+
+    @Id
+    private int id;
+
+    private String name;
+
+    @Embedded
+    private Address address;
+
+    // Getters and Setters
+}
+```
+
+Main Class
+```
+Student student = new Student();
+student.setId(101);
+student.setName("Hitesh");
+
+Address address = new Address();
+address.setCity("Pune");
+address.setState("Maharashtra");
+address.setPincode("411001");
+
+student.setAddress(address);
+
+session.persist(student);
+```
